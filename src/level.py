@@ -48,15 +48,14 @@ class Level:
         soul_layout = import_csv_layout(level_data["souls"])
         self.soul_sprites = self.create_tile_group(soul_layout, "souls")
 
+        self.enemy_sprites = pygame.sprite.Group()
+
         # enemy
-        enemy_layout = import_csv_layout(level_data["angel_enemy"])
-        self.enemy_sprites = self.create_tile_group(enemy_layout, "angel_enemy")
-
-        # enemy_layout = import_csv_layout(level_data["boss_enemy"])
-        # self.enemy_sprites = self.create_tile_group(enemy_layout, "boss_enemy")
-
-        enemy_layout = import_csv_layout(level_data["minion_enemy"])
-        self.enemy_sprites = self.create_tile_group(enemy_layout, "minion_enemy")
+        for enemy in ["angel_enemy", "minion_enemy"]:
+            if enemy in level_data:
+                enemy_layout = import_csv_layout(level_data[enemy])
+                enemy_sprites = self.create_tile_group(enemy_layout, enemy)
+                self.enemy_sprites.add(enemy_sprites)
 
         # constraint
         constraint_layout = import_csv_layout(level_data["constraints"])
